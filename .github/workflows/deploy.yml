@@ -13,4 +13,20 @@ jobs:
     steps:
       - name: Run Commands Remotely
         run: |
-          ssh user@hostname "echo 'Hello, remote world!'"
+          ssh vagrant@192.168.33.45 "echo 'Hello, remote world!'"
+
+
+
+
+   
+#    steps:
+#    - name: executing remote ssh commands using password
+#      uses: appleboy/ssh-action@master
+#      with:
+#        host: ${{ secrets.HOST }}
+#        username: ${{ secrets.USER }}
+#        key: ${{ secrets.KEY }}
+#        port: ${{ secrets.PORT }}
+#        script: |
+#            whoami
+#            ls -al
