@@ -9,11 +9,15 @@ jobs:
   build:
     name: Remote SSH
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Run Commands Remotely
-        run: |
-          ssh vagrant@192.168.33.45 "echo 'Hello, remote world!'"
+    - name: ls -a via ssh
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: ls -a
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        privateKey: ${{ secrets.KEY}}
 
 
 
