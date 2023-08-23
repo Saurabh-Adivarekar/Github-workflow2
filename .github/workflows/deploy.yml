@@ -1,36 +1,15 @@
-name: Perform on Vagrant VM
-
-on:
-  push:
-    branches:
-      - main 
-
+name: remote ssh command
+on: [push]
 jobs:
+
   build:
-    name: Remote SSH
+    name: Build
     runs-on: ubuntu-latest
-    
     steps:
-    - name: ls -a via ssh
-      uses: garygrossgarten/github-action-ssh@release
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.0
       with:
-        command: ls -a
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
-        privateKey: ${{ secrets.KEY}}
-
-
-
-
-   
-#    steps:
-#    - name: executing remote ssh commands using password
-#      uses: appleboy/ssh-action@master
-#      with:
-#        host: ${{ secrets.HOST }}
-#        username: ${{ secrets.USER }}
-#        key: ${{ secrets.KEY }}
-#        port: ${{ secrets.PORT }}
-#        script: |
-#            whoami
-#            ls -al
+        port: ${{ secrets.PORT }}
+        script: whoami
