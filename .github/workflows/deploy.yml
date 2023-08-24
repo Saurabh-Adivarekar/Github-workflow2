@@ -17,6 +17,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          echo "Running on remote host:"
+          echo "Running on remote host..:"
           whoami
 
