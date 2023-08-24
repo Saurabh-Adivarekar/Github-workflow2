@@ -1,7 +1,10 @@
 name: remote ssh command
-on: [push]
-jobs:
+on:
+  push:
+    branches:
+      - main
 
+jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -13,4 +16,7 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
-        script: whoami
+        script: |
+          echo "Running on remote host:"
+          whoami
+
