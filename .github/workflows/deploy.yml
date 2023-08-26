@@ -1,4 +1,5 @@
-name: remote ssh command
+name: Create File on Vagrant
+
 on:
   push:
     branches:
@@ -6,17 +7,20 @@ on:
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
+
     steps:
-    - name: executing remote ssh commands using private key
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.PORT }}
-        script: |
-          echo "Running on remote host..:"
-          whoami
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-add ~/.ssh/id_rsa
+
+      - name: SSH into Vagrant and Create File
+        run: |
+          ssh -o StrictHostKeyChecking=no vagrant@192.168.33.10 'echo "Hello, world!" > /vagrant/hello.txt'
 
