@@ -13,11 +13,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: SSH into Vagrant and Create File
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Set Up SSH Key
         run: |
+          mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+
+      - name: Start SSH Agent
+        run: eval $(ssh-agent -s)
+
+      - name: Add SSH Key to Agent
+        run: ssh-add ~/.ssh/id_rsa
+
+      - name: SSH into Vagrant and Create File
+        run: |
           ssh -o StrictHostKeyChecking=no vagrant@192.168.33.10 'echo "Hello, world!" > /vagrant/hello.txt'
 
