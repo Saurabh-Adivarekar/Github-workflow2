@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: Deploy to EC2 Instance
 
 on:
   push:
@@ -13,12 +13,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up SSH agent
+    - name: Setting up SSH agent
       uses: webfactory/ssh-agent@v0.4.1
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Deploy to EC2
+    - name: Creating file and performing action to EC2 
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@54.80.56.166 'bash -s' << EOF
         echo "Hello from GitHub Actions..!" > ~/file.txt
