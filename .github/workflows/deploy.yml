@@ -21,6 +21,6 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@54.80.56.166 'bash -s' << EOF
-        echo "Hello from GitHub Actions..!"
+        echo "Hello from GitHub Actions..!" > ~/file.txt
         EOF
 
