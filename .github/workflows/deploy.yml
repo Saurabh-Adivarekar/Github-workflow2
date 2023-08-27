@@ -1,4 +1,4 @@
-name: Create File on Vagrant
+name: Deploy to EC2
 
 on:
   push:
@@ -6,16 +6,21 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: SSH into Vagrant and Create File
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") vagrant@192.168.33.10 'echo "Hello, world!" > /vagrant/hello.txt'
+    - name: Set up SSH agent
+      uses: webfactory/ssh-agent@v0.4.1
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no vagrant@192.168.33.10 'bash -s' << EOF
+        echo "Hello from GitHub Actions!"
+        EOF
 
